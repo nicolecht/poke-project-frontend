@@ -10,7 +10,7 @@ const Layout = (props) => {
   }, []);
 
   return (
-    <div className="bg-pokemon">
+    <div>
       <Navbar />
       {props.children}
     </div>

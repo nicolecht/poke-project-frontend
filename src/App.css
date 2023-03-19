@@ -58,6 +58,25 @@
   min-height: 350px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.2));
+
+  animation-name: slide-in-fade-in;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slide-in-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pokemon-card img {
@@ -73,14 +92,15 @@
   color: white !important;
   margin: 1rem;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
-.bg-pokemon {
-  background: rgb(45, 147, 16);
-  background: linear-gradient(
-    90deg,
-    rgba(45, 147, 16, 0.23295255602240894) 0%,
-    rgba(97, 205, 26, 0.2441570378151261) 35%,
-    rgba(1, 135, 16, 0.19373686974789917) 100%
-  );
+.pokemon-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.pokemon-stats p {
+  margin: 0.5rem 1rem;
 }
