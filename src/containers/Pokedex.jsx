@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { fetchUserPokemon } from "../actions/userpokemons";
 import { fetchAllPokemon } from "../actions/allpokemons";
 import { fetchUnownedPokemon } from "../actions/unownedpokemons";
+import { releaseUserPokemon } from "../actions/releasepokemon";
+import { addUserPokemon } from "../actions/addpokemon";
 import { Link } from "react-router-dom";
 import * as pokemons from "../assets/pokemons";
 // import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +15,8 @@ const UserPokemon = ({
   fetchUserPokemon,
   fetchAllPokemon,
   fetchUnownedPokemon,
+  releaseUserPokemon,
+  addUserPokemon,
 }) => {
   const authState = useSelector((state) => state.auth);
   const {
@@ -50,6 +54,7 @@ const UserPokemon = ({
 
   return (
     <div>
+      {/* Owned Pokemons */}
       <div className="py-5">
         <h3>My Pokedex</h3>
       </div>
@@ -75,6 +80,8 @@ const UserPokemon = ({
                       <p>DEF: {pokemon.defense}</p>
                     </div>
                     <p>TYPE: {pokemon.type}</p>
+                    <button className="btn btn-outline-light w-100" onClick={() => releaseUserPokemon(pokemon.name)}>Release</button>
+                    {/* <button className="btn btn-outline-light w-100" onClick={() => addUserPokemon('Pikachu')}>Add</button> */}
                   </div>
                 </div>
               ))}
@@ -145,6 +152,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchUserPokemon: (username) => dispatch(fetchUserPokemon(username)),
     fetchAllPokemon: () => dispatch(fetchAllPokemon()),
     fetchUnownedPokemon: (username) => dispatch(fetchUnownedPokemon(username)),
+    releaseUserPokemon: (pokemon_name) => dispatch(releaseUserPokemon(pokemon_name)),
+    addUserPokemon: (pokemon_name) => dispatch(addUserPokemon(pokemon_name)),
   };
 };
 

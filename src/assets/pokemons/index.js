@@ -14,6 +14,7 @@ import magnemite from "./magnemite.svg"
 import hitmonlee from "./hitmonlee.svg"
 import chansey from "./chansey.svg"
 import mrmime from "./mr-mime.svg"
+import pokeball from "./pokeball.svg"
 
 export {
 	bulbasaur,
@@ -32,4 +33,5 @@ export {
 	hitmonlee,
 	chansey,
 	mrmime,
+	pokeball,
 }

@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import CatchPokemon from "./containers/CatchPokemon";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/pokedex" element={<Pokedex />} />
+              <Route path="/catchpokemon" element={<CatchPokemon />} />
             </Routes>
           </div>
         </Layout>
