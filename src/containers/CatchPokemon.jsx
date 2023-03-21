@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import * as pokemons from "../assets/pokemons";
 // import { useDispatch, useSelector } from 'react-redux';
 import { useSelector } from "react-redux";
+import Loading from "../components/Loading";
 
 const UserPokemon = ({ pokemonState, fetchUnownedPokemon, addUserPokemon }) => {
   const authState = useSelector((state) => state.auth);
@@ -30,59 +31,193 @@ const UserPokemon = ({ pokemonState, fetchUnownedPokemon, addUserPokemon }) => {
     return formattedName;
   };
 
-  const [randomUnownedPokemon, setRandomUnownedPokemon] = useState({
-    pokemon: "",
+  const [pokemon, setPokemon] = useState({
+    pokemonName: "",
     displayPokemon: false,
+    correctNumber: Math.ceil(Math.random() * 10),
+    guessNumber: Number,
+    maximumGuesses: 3,
+    userWin: false,
+    forceCapture: false,
   });
 
   const getRandomOwnedPokemon = () => {
-    setRandomUnownedPokemon((previousState) => {
+    setPokemon((previousState) => {
       return {
         ...previousState,
-        pokemon:
+        pokemonName:
           unownedPokemons[Math.floor(Math.random() * unownedPokemons.length)]
             .name,
-        displayPokemon: !randomUnownedPokemon.displayPokemon,
+        displayPokemon: !pokemon.displayPokemon,
+        correctNumber: Math.ceil(Math.random() * 10),
+        remainingGuesses: 3,
+        userWin: false,
+        forceCapture: false,
       };
     });
   };
 
+  // useEffect(() => {
+  //   if (pokemon.remainingGuesses == 0) {
+  //     getRandomOwnedPokemon();
+  //   }
+  // }, [pokemon, getRandomOwnedPokemon]);
+
+  const onGuessChange = (e) => {
+    setPokemon((previousState) => {
+      return {
+        ...previousState,
+        guessNumber: e.target.value,
+      };
+    });
+  };
+
+  const onSubmitNumber = (e) => {
+    e.preventDefault();
+
+    if (pokemon.correctNumber == pokemon.guessNumber) {
+      addUserPokemon(pokemon.pokemonName);
+      setPokemon((previousState) => {
+        return {
+          ...previousState,
+          userWin: true,
+        };
+      });
+    } else {
+      setPokemon((previousState) => {
+        return {
+          ...previousState,
+          remainingGuesses: pokemon.remainingGuesses - 1,
+        };
+      });
+    }
+  };
+
+  //// **** add Force Capture **** ////
+  //// **** separate the divs into functions - just like what was done in Navbar component **** ////
+
   return (
-    <div>
+    <div className="container p-5">
       {unownedPokemonsLoading ? (
-        <h2>Loading...</h2>
+        <Loading />
       ) : (
         <div>
-          {/* Display Pokemon */}
-          {randomUnownedPokemon.displayPokemon ? (
-            <div>
-              <div className="pokemon-card">
-                <img
-                  src={
-                    pokemons[formatPokemonName(randomUnownedPokemon.pokemon)]
-                  }
-                  alt=""
-                />
-                <p>Name: {randomUnownedPokemon.pokemon}</p>
+          {pokemon.displayPokemon ? (
+            // Display Pokemon
+            <div className="row">
+              <div className="col-6 d-flex flex-column">
+                <div className="mx-auto">
+                  <div className="pokemon-card">
+                    <img
+                      src={pokemons[formatPokemonName(pokemon.pokemonName)]}
+                      alt=""
+                    />
+                    <p>Name: {pokemon.pokemonName}</p>
+                  </div>
+                </div>
+                <button
+                  className="btn btn-success w-50 mx-auto my-2"
+                  onClick={getRandomOwnedPokemon}
+                >
+                  Change Card
+                </button>
+                <button
+                  className="btn btn-light w-50 mx-auto my-2"
+                  onClick={() => {
+                    addUserPokemon(pokemon.pokemonName);
+                    setPokemon((previousState) => {
+                      return {
+                        ...previousState,
+                        forceCapture: true,
+                      };
+                    });
+                  }}
+                >
+                  Force Capture {pokemon.pokemonName}
+                </button>
               </div>
-              <button
-                className="btn btn-success"
-                onClick={getRandomOwnedPokemon}
-              >
-                Another Card
-              </button>
-              <button
-                className="btn btn-light w-100"
-                onClick={() => addUserPokemon(randomUnownedPokemon.pokemon)}
-              >
-                Add {randomUnownedPokemon.pokemon}
-              </button>
+              <div className="col-6">
+                {pokemon.userWin && !pokemon.forceCapture ? (
+                  // User Won
+                  <div>
+                    <h1>u won!</h1>
+                    <button
+                      className="btn btn-success w-50 mx-auto my-2"
+                      onClick={getRandomOwnedPokemon}
+                    >
+                      Replay
+                    </button>
+                  </div>
+                ) : (
+                  // User Still Guessing
+                  <div>
+                    {pokemon.remainingGuesses > 0 ? (
+                      <div className="container-fluid mt-5">
+                        <h1>Pokeball ready!</h1>
+                        <p>
+                          Guess the hidden number to capture{" "}
+                          {pokemon.pokemonName}
+                        </p>
+                        {pokemon.remainingGuesses > 0 ? (
+                          <div>
+                            <p>
+                              You have {pokemon.remainingGuesses} guesses left!
+                            </p>
+                          </div>
+                        ) : (
+                          <div>
+                            <p>{pokemon.pokemonName} has ran away!</p>
+                          </div>
+                        )}
+                        <form
+                          onSubmit={(e) => onSubmitNumber(e)}
+                          className="row"
+                        >
+                          <div className="form-group col-6">
+                            <input
+                              className="form-control"
+                              type="number"
+                              placeholder="Guess between 1 - 10"
+                              name="number"
+                              onChange={(e) => onGuessChange(e)}
+                              required
+                              max={10}
+                              min={1}
+                            />
+                          </div>
+                          <button
+                            className="btn btn-primary col-auto"
+                            type="submit"
+                          >
+                            Guess
+                          </button>
+                        </form>
+                      </div>
+                    ) : (
+                      // User Lost
+                      <div>
+                        <h1>you lost!</h1>
+                        <button
+                          className="btn btn-success w-50 mx-auto my-2"
+                          onClick={getRandomOwnedPokemon}
+                        >
+                          Replay
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             // Hide Pokemon
-            <div className="pokemon-card back" onClick={getRandomOwnedPokemon}>
-              <img src={pokemons["pokeball"]} alt="pokeball" />
-              <p>{randomUnownedPokemon.pokemon}</p>
+            <div className="">
+              <div
+                className="pokemon-card back mx-auto"
+                onClick={getRandomOwnedPokemon}
+              >
+                <img src={pokemons["pokeball"]} alt="pokeball" />
+              </div>
             </div>
           )}
         </div>
