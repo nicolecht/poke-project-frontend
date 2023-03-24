@@ -4,6 +4,8 @@ export const RELEASE_POKEMON_REQUEST = "RELEASE_POKEMON_REQUEST";
 export const RELEASE_POKEMON_SUCCESS = "RELEASE_POKEMON_SUCCESS";
 export const RELEASE_POKEMON_FAILURE = "RELEASE_POKEMON_FAILURE";
 
+const apiUrl = `${import.meta.env.VITE_API_URL}`;
+
 export const releaseUserPokemon = (pokemon_name) => async (dispatch) => {
   dispatch({ type: RELEASE_POKEMON_REQUEST });
 
@@ -19,7 +21,7 @@ export const releaseUserPokemon = (pokemon_name) => async (dispatch) => {
 
   try {
     const response = await axios.post(
-      `http://127.0.0.1:8000/pokemon/pokemon/releasepokemon/`,
+      `${apiUrl}/pokemon/pokemon/releasepokemon/`,
       body,
 	  config
     );

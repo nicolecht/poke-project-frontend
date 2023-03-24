@@ -4,6 +4,8 @@ export const ADD_POKEMON_REQUEST = "ADD_POKEMON_REQUEST";
 export const ADD_POKEMON_SUCCESS = "ADD_POKEMON_SUCCESS";
 export const ADD_POKEMON_FAILURE = "ADD_POKEMON_FAILURE";
 
+const apiUrl = `${import.meta.env.VITE_API_URL}`;
+
 export const addUserPokemon = (pokemon_name) => async (dispatch) => {
   dispatch({ type: ADD_POKEMON_REQUEST });
 
@@ -21,7 +23,7 @@ export const addUserPokemon = (pokemon_name) => async (dispatch) => {
     console.log(config);
     console.log(body);
     const response = await axios.post(
-      `http://127.0.0.1:8000/pokemon/pokemon/addpokemon/`,
+      `${apiUrl}/pokemon/pokemon/addpokemon/`,
       body,
       config
     );

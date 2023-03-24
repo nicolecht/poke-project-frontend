@@ -11,8 +11,11 @@ import {
   SIGNUP_FAIL,
 } from "./types";
 
+const apiUrl = `${import.meta.env.VITE_API_URL}`;
+
 export const checkAuthenticated = () => async (dispatch) => {
   if (localStorage.getItem("access")) {
+
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +27,7 @@ export const checkAuthenticated = () => async (dispatch) => {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/pokemon/auth/jwt/verify/",
+        `${apiUrl}/pokemon/auth/jwt/verify/`,
         body,
         config
       );
@@ -62,7 +65,7 @@ export const load_user = () => async (dispatch) => {
     try {
       const res = await axios.get(
         // `${process.env.REACT_APP_API_URL}/auth/users/me/`,
-        "http://127.0.0.1:8000/pokemon/auth/users/me/",
+        `${apiUrl}/pokemon/auth/users/me/`,
         // null,
         config
       );
@@ -95,7 +98,7 @@ export const login = (username, password) => async (dispatch) => {
   try {
     const res = await axios.post(
       //   `${process.env.REACT_APP_API_URL}/pokemon/auth/jwt/create`,
-      "http://127.0.0.1:8000/pokemon/auth/jwt/create/",
+      `${apiUrl}/pokemon/auth/jwt/create/`,
       body,
       config
     );
@@ -106,6 +109,7 @@ export const login = (username, password) => async (dispatch) => {
 
     dispatch(load_user());
   } catch (err) {
+    console.log(err)
     dispatch({
       type: LOGIN_FAIL,
     });
@@ -124,7 +128,7 @@ export const signup = (username, password, re_password) => async (dispatch) => {
   try {
     const res = await axios.post(
       //   `${process.env.REACT_APP_API_URL}/pokemon/auth/jwt/create`,
-      "http://127.0.0.1:8000/pokemon/auth/users/",
+      `${apiUrl}/pokemon/auth/users/`,
       body,
       config
     );

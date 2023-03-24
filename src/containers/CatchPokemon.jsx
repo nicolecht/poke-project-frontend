@@ -94,6 +94,7 @@ const UserPokemon = ({ pokemonState, fetchUnownedPokemon, addUserPokemon }) => {
   };
 
   //// **** add Force Capture **** ////
+  //// **** add animation/prompt when user wins the game (catched all 16) **** ////
   //// **** separate the divs into functions - just like what was done in Navbar component **** ////
 
   return (

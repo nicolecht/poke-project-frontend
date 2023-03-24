@@ -4,6 +4,8 @@ export const FETCH_POKEMON_REQUEST = 'FETCH_POKEMON_REQUEST';
 export const FETCH_POKEMON_SUCCESS = 'FETCH_POKEMON_SUCCESS';
 export const FETCH_POKEMON_FAILURE = 'FETCH_POKEMON_FAILURE';
 
+const apiUrl = `${import.meta.env.VITE_API_URL}`;
+
 export const fetchUserPokemon = (username) => async (dispatch) => {
 	dispatch({ type: FETCH_POKEMON_REQUEST });
 
@@ -18,7 +20,7 @@ export const fetchUserPokemon = (username) => async (dispatch) => {
 	const body = JSON.stringify({ username: username });
   
 	try {
-	  const response = await axios.get(`http://127.0.0.1:8000/pokemon/pokemon/mypokemon/`, config, body);
+	  const response = await axios.get(`${apiUrl}/pokemon/pokemon/mypokemon/`, config, body);
 	  const pokemon = response.data;
 	  dispatch({
 		type: FETCH_POKEMON_SUCCESS,
