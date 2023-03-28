@@ -2,6 +2,9 @@
 
 ## Steps to run this program:
 1. Git clone
+```
+git clone https://github.com/nicolecht/poke-project-frontend.git
+```
 2. cd poke-project-frontend
 3. Install dependencies 
 ```
