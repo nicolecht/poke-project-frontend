@@ -11,6 +11,6 @@ npm install
 ```
 npm run dev
 ```
-5. Here's a testing account if you wish to skip registering a new account:
-Username: testingaccount
+5. Here's a testing account if you wish to skip registering a new account:<br>
+Username: testingaccount <br>
 Password: masteroogway
