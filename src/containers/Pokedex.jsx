@@ -73,12 +73,13 @@ const UserPokemon = ({
       {/* Owned Pokemons */}
       <div className="py-5">
         <h3>My Pokedex</h3>
-        <div className="mt-5">
+        <div className="mt-5 d-sm-block d-flex flex-column justify-content-center">
           <button
-            className={`btn me-3 ${
+            className={`btn me-sm-3 mb-2 ${
               layout.showOwnedPokemons ? "btn-success" : "btn-outline-success"
             }`}
             onClick={() => {
+              fetchUserPokemon(authState.user.username);
               setLayout((previousState) => {
                 return {
                   showOwnedPokemons: true,
@@ -91,10 +92,11 @@ const UserPokemon = ({
             Owned Pokemons
           </button>
           <button
-            className={`btn me-3 ${
+            className={`btn me-sm-3 mb-2 ${
               layout.showUnownedPokemons ? "btn-success" : "btn-outline-success"
             }`}
             onClick={() => {
+              fetchUnownedPokemon(authState.user.username);
               setLayout((previousState) => {
                 return {
                   showOwnedPokemons: false,
@@ -107,7 +109,7 @@ const UserPokemon = ({
             Unowned Pokemons
           </button>
           <button
-            className={`btn ${
+            className={`btn mb-2 ${
               layout.showAllPokemons ? "btn-success" : "btn-outline-success"
             }`}
             onClick={() => {
@@ -159,6 +161,7 @@ const UserPokemon = ({
                       </div>
                     </div>
                   ))}
+                  {(userPokemon && userPokemon.length < 1) && <div><p>No pokemon found.</p></div> }
               </div>
             </div>
           ) : (
@@ -166,7 +169,6 @@ const UserPokemon = ({
           )}
         </div>
       )}
-      {/* {userError && <h2>{userError}</h2>} */}
 
       {/* Unowned Pokemons */}
       {unownedPokemonsLoading ? (
@@ -188,6 +190,7 @@ const UserPokemon = ({
                       </div>
                     </div>
                   ))}
+                  {(unownedPokemons && unownedPokemons.length < 1) && <div><p>No pokemon found.</p></div> }
               </div>
             </div>
           ) : (
@@ -195,7 +198,6 @@ const UserPokemon = ({
           )}
         </div>
       )}
-      {/* {unownedPokemonsError && <h2>{unownedPokemonsError}</h2>} */}
 
       {/* All Pokemons */}
       {allPokemonsLoading ? (
@@ -224,7 +226,6 @@ const UserPokemon = ({
           )}
         </div>
       )}
-      {/* {allPokemonsError && <h2>{allPokemonsError}</h2>} */}
     </div>
   );
 };

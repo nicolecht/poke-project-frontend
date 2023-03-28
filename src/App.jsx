@@ -10,8 +10,9 @@ import Layout from "./hocs/Layout";
 import { Provider } from "react-redux";
 import store from "./store";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import CatchPokemon from "./containers/CatchPokemon";
+import { createPopper } from '@popperjs/core';
 
 const App = () => {
   return (
@@ -19,6 +20,11 @@ const App = () => {
       <Router>
         <Layout>
           <div className="container">
+            <ToastContainer
+              position="bottom-right"
+              autoClose={2000}
+              closeOnClick
+            />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />

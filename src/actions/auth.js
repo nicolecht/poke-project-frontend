@@ -11,6 +11,8 @@ import {
   SIGNUP_FAIL,
 } from "./types";
 
+import { toast } from "react-toastify";
+
 const apiUrl = `${import.meta.env.VITE_API_URL}`;
 
 export const checkAuthenticated = () => async (dispatch) => {
@@ -64,7 +66,6 @@ export const load_user = () => async (dispatch) => {
 
     try {
       const res = await axios.get(
-        // `${process.env.REACT_APP_API_URL}/auth/users/me/`,
         `${apiUrl}/pokemon/auth/users/me/`,
         // null,
         config
@@ -97,7 +98,6 @@ export const login = (username, password) => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      //   `${process.env.REACT_APP_API_URL}/pokemon/auth/jwt/create`,
       `${apiUrl}/pokemon/auth/jwt/create/`,
       body,
       config
@@ -106,13 +106,14 @@ export const login = (username, password) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
+    toast('Login Success')
 
     dispatch(load_user());
   } catch (err) {
-    console.log(err)
     dispatch({
       type: LOGIN_FAIL,
     });
+    toast.error('Login Fail')
   }
 };
 
@@ -126,21 +127,17 @@ export const signup = (username, password, re_password) => async (dispatch) => {
   const body = JSON.stringify({ username, password, re_password });
 
   try {
-    const res = await axios.post(
-      //   `${process.env.REACT_APP_API_URL}/pokemon/auth/jwt/create`,
-      `${apiUrl}/pokemon/auth/users/`,
-      body,
-      config
-    );
+    const res = await axios.post(`${apiUrl}/pokemon/auth/users/`, body, config);
     dispatch({
       type: SIGNUP_SUCCESS,
       payload: res.data,
     });
+    toast("Registration Successful");
   } catch (err) {
-    console.log(err)
     dispatch({
       type: SIGNUP_FAIL,
     });
+    toast.error("Registration Unsuccessful");
   }
 };
 
